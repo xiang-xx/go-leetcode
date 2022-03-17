@@ -14,22 +14,79 @@ func Test_validUtf8(t *testing.T) {
 		{
 			name:"1byte true",
 			args: args{
-				data: []int{50},
+				data: []int{0b00000001},
 			},
 			want: true,
 		},
 		{
 			name: "1byte false",
 			args: args{
-				data: []int{50, 1<<7, 50},
+				data: []int{0b10000001, 0b10000000},
 			},
 			want: false,
 		},
 		{
 			name: "2byte true",
 			args: args{
-				data: []int{0b11},
+				data: []int{0b11010101, 0b10000101, 0b00000010},
 			},
+			want: true,
+		},
+		{
+			name: "2byte false",
+			args: args{
+				data: []int{0b00000010, 0b11010101, 0b11000101, 0b00000010},
+			},
+			want: false,
+		},
+		{
+			name: "3byte true",
+			args: args{
+				data: []int{0b11100101, 0b10000101, 0b10000010, 0b00000010},
+			},
+			want: true,
+		},
+		{
+			name: "3byte false",
+			args: args{
+				data: []int{0b00000010, 0b11100101, 0b10000101, 0b00000010},
+			},
+			want: false,
+		},
+		{
+			name: "4byte true",
+			args: args{
+				data: []int{0b11110101, 0b10000101, 0b10000010, 0b10000010, 0b00000010},
+			},
+			want: true,
+		},
+		{
+			name: "4byte false",
+			args: args{
+				data: []int{0b00000010, 0b11110101, 0b10000101, 0b10000010, 0b00000010},
+			},
+			want: false,
+		},
+		{
+			name: "mix true",
+			args: args{
+				data: []int{0b11110101, 0b10000101, 0b10000010, 0b10000010, 0b00000010, 0b11100101, 0b10000101, 0b10000010, 0b00000010},
+			},
+			want: true,
+		},
+		{
+			name: "mix false",
+			args: args{
+				data: []int{0b11110101, 0b10000101, 0b10000010, 0b10000010, 0b00000010, 0b11100101, 0b11000101, 0b10000010, 0b00000010},
+			},
+			want: false,
+		},
+		{
+			name: "mix false",
+			args: args{
+				data: []int{0b11110101, 0b10000101, 0b10000010, 0b10000010, 0b00000010, 0b11100101, 0b11000101, 0b10000010, 0b11000010},
+			},
+			want: false,
 		},
 	}
 	for _, tt := range tests {
