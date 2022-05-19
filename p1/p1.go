@@ -1,4 +1,6 @@
-package p1
+package main
+
+import "fmt"
 
 // https://leetcode-cn.com/problems/two-sum/
 //给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那两个整数，并返回它们的数组下标。
@@ -20,4 +22,8 @@ func twoSum(nums []int, target int) []int {
 		}
 	}
 	return make([]int, 0)
+}
+
+func main() {
+	fmt.Printf("%v\n", twoSum([]int{1, 2, 3}, 3))
 }
